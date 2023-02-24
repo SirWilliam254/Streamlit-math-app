@@ -1,8 +1,11 @@
-streamlit==1.18.1
-numpy==1.19.5
-altair==4.1.0
-pandas==1.2.5
+streamlit
+numpy
+pandas
 scipy
-click==8
+click
+altair
 sympy
 seaborn
+math
+matplotlib
+decimal
