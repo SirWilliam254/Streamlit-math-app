@@ -6,6 +6,5 @@ click
 altair
 sympy
 seaborn
-math
 matplotlib
 decimal
