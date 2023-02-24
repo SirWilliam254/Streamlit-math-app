@@ -53,15 +53,14 @@ dist_dict = {
     "Exponential": expon_prob,
     "Gamma": gamma_prob,
     "Geometric": geom_prob
+    "Negative Binomial": nbinom_prob,
+    "Normal": norm_prob,
+    "Poisson": poisson_prob,
+    "Uniform": uniform_prob,
+    "Weibull": weibull_prob
     }
 
-"""
-        "Negative Binomial": nbinom_prob,
-        "Normal": norm_prob,
-        "Poisson": poisson_prob,
-        "Uniform": uniform_prob,
-        "Weibull": weibull_prob
-"""
+
     # call the correct probability function based on the selected distribution
 if dist in dist_dict:
     prob = dist_dict[dist]()
