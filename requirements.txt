@@ -1,1 +1,8 @@
 streamlit==1.18.1
+numpy==1.19.5
+altair==4.1.0
+pandas==1.2.5
+scipy
+click==8
+sympy
+seaborn
