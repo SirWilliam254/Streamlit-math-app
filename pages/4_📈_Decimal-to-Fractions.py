@@ -1,42 +1,45 @@
 import streamlit as st
-from decimal import Decimal
-import math as math
 
-# Define a function to convert a decimal to a fraction
-def decimal_to_fraction(decimal_num):
-    decimal_str = str(decimal_num)
-    decimal_places = 0 if '.' not in decimal_str else len(decimal_str) - decimal_str.index('.') - 1
-    fraction_num = int(decimal_num * 10**decimal_places)
-    gcd_num = math.gcd(fraction_num, 10**decimal_places)
-    numerator = fraction_num // gcd_num
-    denominator = 10**decimal_places // gcd_num
-    return f"{numerator}/{denominator}" # Return the fraction as a string in the format "numerator/denominator"
+def to_fraction(x, max_denominator=1000):
+    """Converts a float to a fraction."""
+    if x == 0:
+        return 0, 1
+    a = int(x)
+    frac = x - a
+    numerator, denominator = 0, 1
+    while abs(frac - float(numerator) / denominator) > 0 and denominator <= max_denominator:
+        if frac > float(numerator) / denominator:
+            numerator += 1
+        else:
+            denominator += 1
+    return f"{a * denominator + numerator}/{denominator}"
 
-# Define the Streamlit app
-def app():
-    # Add a title to the app
+def main():
     st.title("Decimal to Fraction Converter")
+    st.write("Enter a list of decimal numbers separated by commas:")
+    st.subheader("NB")
+    st.write(
+        """
+         it's important to note that not all decimals can be represented exactly as a fraction, especially if the decimal has repeating decimals or goes on indefinitely. In these cases, the app will give an approximation of the fraction that is as close as possible to the original decimal, but not exact. Currently converting decimals that are of the form (0. ).
+        """
+    )
+    decimals = st.text_input("Decimals")
+    decimals_list = decimals.split(",")
+    fractions_list = []
 
-    # Add a text input to allow the user to enter a comma-separated list of decimal numbers
-    decimal_input = st.text_input("Enter decimal numbers separated by commas:")
+    for decimal in decimals_list:
+        try:
+            decimal = float(decimal.strip())
+            if decimal >= 1 or decimal <= -1:
+                a, b = to_fraction(decimal)
+                fractions_list.append(f"{a} {b}/{abs(b)}")
+            else:
+                fractions_list.append(f"{to_fraction(decimal)}")
+        except ValueError:
+            st.error(f"Error: Could not convert {decimal.strip()} to float.")
 
-    # Split the input string into a list of decimal numbers
-    try:
-        decimal_list = [
-            float(d) for d in decimal_input.split(",")
-        ]
-    except ValueError:
-        st.write("Invalid input format. Please enter a comma-separated list of decimal numbers.")
-        return
-    
-    # Convert each decimal number to a fraction using the decimal_to_fraction function
-    fraction_list = [decimal_to_fraction(Decimal(str(d))) for d in decimal_list]
-
-    # Display the list of fractions
     st.write("Fractions:")
-    st.write(fraction_list)
+    st.write(", ".join(fractions_list))
 
-# Run the app
-if __name__ == '__main__':
-    app()
-
+if __name__ == "__main__":
+    main()
