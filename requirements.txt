@@ -2,9 +2,3 @@ streamlit
 numpy
 pandas
 scipy
-click
-altair
-sympy
-seaborn
-matplotlib
-decimal
