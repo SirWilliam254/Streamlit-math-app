@@ -1,51 +1,68 @@
 import streamlit as st
 import numpy as np
-from scipy.stats import *
+import scipy.stats as stats
 
+# Define a dictionary of distribution names and their corresponding functions
+distributions = {
+    'Beta': {'func': stats.beta, 'params': ['alpha', 'beta']},
+    'Binomial': {'func': stats.binom, 'params': ['n', 'p']},
+    'Exponential': {'func': stats.expon, 'params': ['scale']},
+    'Gamma': {'func': stats.gamma, 'params': ['k', 'theta']},
+    'Geometric': {'func': stats.geom, 'params': ['p']},
+    'Logistic': {'func': stats.logistic, 'params': ['loc', 'scale']},
+    'Log Normal': {'func': stats.lognorm, 'params': ['s', 'loc', 'scale']},
+    'Negative Binomial': {'func': stats.nbinom, 'params': ['n', 'p']},
+    'Normal': {'func': stats.norm, 'params': ['loc', 'scale']},
+    'Poisson': {'func': stats.poisson, 'params': ['mu']},
+    'T': {'func': stats.t, 'params': ['df']},
+    'Uniform': {'func': stats.uniform, 'params': ['loc', 'scale']},
+    'Weibull': {'func': stats.weibull_min, 'params': ['c', 'scale']}
+}
 
-# Define the list of available distributions
-distributions = ['Beta', 'Binomial']
+# Define a function to calculate the probability density/mass function
+def calc_prob_dist(distribution, params, x, case):
+    dist = distributions[distribution]['func'](*params)
+    if case == 'p<x':
+        prob = dist.cdf(x)
+    elif case == 'p>x':
+        prob = 1 - dist.cdf(x)
+    elif case == 'p1<x<p2':
+        prob = dist.cdf(x[1]) - dist.cdf(x[0])
+    return prob
 
-# Define the list of available probability cases
-prob_cases = ['p<x', 'p>x', 'p1<x<p2']
+# Define the Streamlit app
+def main():
+    st.title('Probability Calculator')
+    st.write('This app allows you to calculate the probability density/mass function of different distributions.')
+    
+    # Create dropdown menu to select a distribution
+    distribution = st.selectbox('Select a distribution:', list(distributions.keys()))
+    
+    # Get parameter values for the selected distribution
+    params = []
+    for param in distributions[distribution]['params']:
+        param_val = st.number_input(f'Enter value for {param}:', value=1)
+        params.append(param_val)
+    
+    # Create dropdown menu to select the case
+    case = st.radio('Select a case:', ['p<x', 'p>x', 'p1<x<p2'])
+    
+    # Get x value(s) for the probability density/mass function
+    if case == 'p<x':
+        x = st.number_input('Enter x value:', value=0.5)
+    elif case == 'p>x':
+        x = st.number_input('Enter x value:', value=0.5)
+    elif case == 'p1<x<p2':
+        x_min = st.number_input('Enter minimum x value:', value=0)
+        x_max = st.number_input('Enter maximum x value:', value=1)
+        x = [x_min, x_max]
+    
+    # Calculate the probability
+    prob = calc_prob_dist(distribution, params, x, case)
+    
+    # Display the probability
+    st.write(f'P({case}) = {prob}')
+    
 
-# Define the UI for the app
-st.title("Probability Calculator")
-
-distribution = st.selectbox("Select a distribution", distributions)
-
-if distribution == 'Beta':
-    a = st.number_input("a (shape parameter)", value=1.0, step=0.1)
-    b = st.number_input("b (shape parameter)", value=1.0, step=0.1)
-elif distribution == 'Binomial':
-    n = st.number_input("Number of trials", value=10, step=1)
-    p = st.number_input("Probability of success", value=0.5, step=0.1, min_value=0.0, max_value=1.0)
-
-prob_case = st.radio("Select a probability case", prob_cases)
-
-if prob_case == 'p<x':
-    value = st.number_input("Value", value=0.0, step=0.1)
-elif prob_case == 'p>x':
-    value = st.number_input("Value", value=1.0, step=0.1)
-else:
-    value1 = st.number_input("Lower value", value=0.0, step=0.1)
-    value2 = st.number_input("Upper value", value=1.0, step=0.1)
-
-# Calculate the probability based on the selected distribution and probability case
-if distribution == 'Beta':
-    if prob_case == 'p<x':
-        prob = beta.cdf(value, a, b)
-    elif prob_case == 'p>x':
-        prob = 1 - beta.cdf(value, a, b)
-    else:
-        prob = beta.cdf(value2, a, b) - beta.cdf(value1, a, b)
-elif distribution == 'Binomial':
-    if prob_case == 'p<x':
-        prob = binom.cdf(value, n=n, p=p)
-    elif prob_case == 'p>x':
-        prob = 1 - binom.cdf(value-1, n=n, p=p)
-    else:
-        prob = binom.cdf(value2, n=n, p=p) - binom.cdf(value1-1, n=n, p=p)
-
-# Display the calculated probability to the user
-    st.write(f"Probability of {prob_case} case" + f" is {prob}")
+if __name__ == '__main__':
+    main()
