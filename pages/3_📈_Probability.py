@@ -19,49 +19,69 @@ distributions = {
     'Weibull': stats.weibull_min
 }
 
-# Define a function to calculate the probabilities
-def calc_probs(distribution, params, x1, x2=None):
+# Define a function to calculate the probability density/mass function
+def calc_prob_dist(distribution, params, x):
     dist = distributions[distribution](*params)
-    if x2 is None:
-        p1 = dist.cdf(x1)
-        p2 = dist.sf(x1)
-        p3 = None
+    if dist.shapes:
+        pdf = dist.pdf(x)
     else:
-        p1 = dist.cdf(x1)
-        p2 = dist.sf(x1)
-        p3 = dist.sf(x2) - dist.sf(x1)
-    return p1, p2, p3
+        pdf = dist.pmf(x)
+    return pdf
 
 # Define the Streamlit app
 def main():
     st.title('Probability Calculator')
-    st.write('This app allows you to calculate the probabilities for different distributions.')
+    st.write('This app allows you to calculate probabilities for different distributions.')
     
     # Create dropdown menu to select a distribution
     distribution = st.selectbox('Select a distribution:', list(distributions.keys()))
     
-    # Get parameters for the selected distribution
-    params = []
-    for param in distributions[distribution].shapes:
-        param_val = st.number_input(f'Enter value for {param}:', value=1)
-        params.append(param_val)
+    # Define dictionary of parameter names and their valid ranges
+    param_ranges = {
+        'Beta': {'a': (0, np.inf), 'b': (0, np.inf)},
+        'Binomial': {'n': (0, np.inf), 'p': (0, 1)},
+        'Exponential': {'scale': (0, np.inf)},
+        'Gamma': {'a': (0, np.inf), 'scale': (0, np.inf)},
+        'Geometric': {'p': (0, 1)},
+        'Logistic': {'loc': (-np.inf, np.inf), 'scale': (0, np.inf)},
+        'Log Normal': {'s': (0, np.inf), 'scale': (0, np.inf)},
+        'Negative Binomial': {'n': (0, np.inf), 'p': (0, 1)},
+        'Normal': {'loc': (-np.inf, np.inf), 'scale': (0, np.inf)},
+        'Poisson': {'mu': (0, np.inf)},
+        'T': {'df': (0, np.inf)},
+        'Uniform': {'loc': (-np.inf, np.inf), 'scale': (0, np.inf)},
+        'Weibull': {'c': (0, np.inf), 'scale': (0, np.inf)}
+    }
     
-    # Get x1 and x2 values for the probabilities
-    x1 = st.number_input('Enter value for x:', value=0)
-    if st.checkbox('Calculate p>x>p2'):
-        x2 = st.number_input('Enter value for x2:', value=1)
-    else:
-        x2 = None
+    # Get allowable parameters for the selected distribution
+    allowable_params = list(distributions[distribution].shapes.keys())
+    param_ranges = {k: v for k, v in param_ranges[distribution].items() if k in allowable_params}
     
-    # Calculate the probabilities
-    p1, p2, p3 = calc_probs(distribution, params, x1, x2)
+    # Get values for the selected parameters
+    params = {}
+    for param in param_ranges.keys():
+        value = st.number_input(f"Enter a value for '{param}'", min_value=param_ranges[param][0], max_value=param_ranges[param][1])
+        params[param] = value
     
-    # Display the probabilities
-    st.write(f'p < x: {p1:.4f}')
-    st.write(f'p > x: {p2:.4f}')
-    if p3 is not None:
-        st.write(f'p > x > p2: {p3:.4f}')
-    
-# Run the Streamlit app
+    # Select a probability case
+    prob_type = st.selectbox('Select a probability case:', ['P(X < x)', 'P(X > x)', 'P(x1 < X < x2)'])
+    # Get the value(s) of x for the selected probability case
+if case == 'P(x1 < X < x2)':
+    x1 = st.number_input('Enter the value of x1:', value=0, step=0.01)
+    x2 = st.number_input('Enter the value of x2:', value=0, step=0.01)
+else:
+    x = st.number_input('Enter the value of x:', value=0, step=0.01)
+
+# Calculate the probability
+if case == 'P(X < x)':
+    prob = distributions[distribution].cdf(x, **params)
+elif case == 'P(X > x)':
+    prob = 1 - distributions[distribution].cdf(x, **params)
+else:
+    prob = distributions[distribution].cdf(x2, **params) - distributions[distribution].cdf(x1, **params)
+
+# Display the results
+st.write(f'The probability of {case} is {prob:.4f}')
+
 if __name__ == '__main__':
     main()
