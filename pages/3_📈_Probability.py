@@ -56,12 +56,12 @@ def main():
         x_min = st.number_input('Enter minimum x value:', value=0)
         x_max = st.number_input('Enter maximum x value:', value=1)
         x = [x_min, x_max]
-    
+    if st.button("Calculate Probability"):
     # Calculate the probability
-    prob = calc_prob_dist(distribution, params, x, case)
+        prob = calc_prob_dist(distribution, params, x, case)
     
     # Display the probability
-    st.write(f'P({case}) = {prob}')
+        st.write(f'P({case}) = {prob}')
     
 
 if __name__ == '__main__':
