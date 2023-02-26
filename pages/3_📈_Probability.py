@@ -48,7 +48,6 @@ elif distribution == 'Binomial':
 
 # Display the calculated probability to the user
     st.write(f"Probability of {prob_case} {value}" + (f" and {value2}" if prob_case == 'Between' else "") + f" is {prob}")
-
+    
 if __name__ == '__main__':
     main()
-
