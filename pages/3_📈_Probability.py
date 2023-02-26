@@ -7,7 +7,7 @@ from scipy.stats import *
 distributions = ['Beta', 'Binomial']
 
 # Define the list of available probability cases
-prob_cases = ['Less than', 'Greater than', 'Between']
+prob_cases = ['p<x', 'p>x', 'p1<x<p2']
 
 # Define the UI for the app
 st.title("Probability Calculator")
@@ -23,9 +23,9 @@ elif distribution == 'Binomial':
 
 prob_case = st.radio("Select a probability case", prob_cases)
 
-if prob_case == 'Less than':
+if prob_case == 'p<x':
     value = st.number_input("Value", value=0.0, step=0.1)
-elif prob_case == 'Greater than':
+elif prob_case == 'p>x':
     value = st.number_input("Value", value=1.0, step=0.1)
 else:
     value1 = st.number_input("Lower value", value=0.0, step=0.1)
@@ -33,16 +33,16 @@ else:
 
 # Calculate the probability based on the selected distribution and probability case
 if distribution == 'Beta':
-    if prob_case == 'Less than':
+    if prob_case == 'p<x':
         prob = beta.cdf(value, a, b)
-    elif prob_case == 'Greater than':
+    elif prob_case == 'p>x':
         prob = 1 - beta.cdf(value, a, b)
     else:
         prob = beta.cdf(value2, a, b) - beta.cdf(value1, a, b)
 elif distribution == 'Binomial':
-    if prob_case == 'Less than':
+    if prob_case == 'p<x':
         prob = binom.cdf(value, n=n, p=p)
-    elif prob_case == 'Greater than':
+    elif prob_case == 'p>x':
         prob = 1 - binom.cdf(value-1, n=n, p=p)
     else:
         prob = binom.cdf(value2, n=n, p=p) - binom.cdf(value1-1, n=n, p=p)
