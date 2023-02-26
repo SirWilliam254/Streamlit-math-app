@@ -33,14 +33,15 @@ def main():
         st.write("Enter a list of numbers separated by commas:")
         num_input = st.text_input("List of numbers")
         num_list = num_input.split(",")
-        try:
-            num_list = [float(num.strip()) for num in num_list]
-        except ValueError:
-            st.error("Error: Could not convert values to floats.")
-            return
-        standardized_list = standardize(num_list)
-        st.write("Standardized Numbers:")
-        st.write(", ".join([str(num) for num in standardized_list]))
+        if st.button("Scale"):
+            try:
+                num_list = [float(num.strip()) for num in num_list]
+            except ValueError:
+                st.error("Error: Could not convert values to floats.")
+                return
+            standardized_list = standardize(num_list)
+            st.write("Standardized Numbers:")
+            st.write(", ".join([str(num) for num in standardized_list]))
         
     elif option == "Upload CSV":
         file = st.file_uploader("Upload CSV", type=["csv"])
