@@ -48,5 +48,5 @@ elif distribution == 'Binomial':
         prob = binom.cdf(value2, n=n, p=p) - binom.cdf(value1-1, n=n, p=p)
 
 # Display the calculated probability to the user
-    st.write(f"Probability of {prob_case} {value}" + (f" and {value2}" if prob_case == 'Between' else "") + f" is {prob}")
+    st.write(f"Probability of {prob_case}" + f" is {prob}")
     
