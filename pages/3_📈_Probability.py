@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 from scipy.stats import *
-
+from pip import main
 
 # Define the list of available distributions
 distributions = ['Beta', 'Binomial']
@@ -15,11 +15,11 @@ st.title("Probability Calculator")
 distribution = st.selectbox("Select a distribution", distributions)
 
 if distribution == 'Beta':
-    a = st.number_input("a (shape parameter)", value=1.0, step=0.1)
-    b = st.number_input("b (shape parameter)", value=1.0, step=0.1)
+    a = st.number_input("a (shape parameter)", value=1.0, step=1)
+    b = st.number_input("b (shape parameter)", value=1.0, step=1)
 elif distribution == 'Binomial':
     n = st.number_input("Number of trials", value=10, step=1)
-    p = st.number_input("Probability of success", value=0.5, step=0.01, min_value=0.0, max_value=1.0)
+    p = st.number_input("Probability of success", value=0.5, step=0.1, min_value=0.0, max_value=1.0)
 
 prob_case = st.radio("Select a probability case", prob_cases)
 
@@ -48,5 +48,8 @@ elif distribution == 'Binomial':
         prob = binom.cdf(value2, n=n, p=p) - binom.cdf(value1-1, n=n, p=p)
 
 # Display the calculated probability to the user
-    st.write(f"Probability of {prob_case}" + f" is {prob}")
+    st.write(f"Probability of {prob_case} case" + f" is {prob}")
+
     
+if __name__ == "__main__":
+    main()
