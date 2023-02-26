@@ -15,8 +15,8 @@ st.title("Probability Calculator")
 distribution = st.selectbox("Select a distribution", distributions)
 
 if distribution == 'Beta':
-    a = st.number_input("a (shape parameter)", value=1.0, step=1)
-    b = st.number_input("b (shape parameter)", value=1.0, step=1)
+    a = st.number_input("a (shape parameter)", value=1.0, step=0.1)
+    b = st.number_input("b (shape parameter)", value=1.0, step=0.1)
 elif distribution == 'Binomial':
     n = st.number_input("Number of trials", value=10, step=1)
     p = st.number_input("Probability of success", value=0.5, step=0.1, min_value=0.0, max_value=1.0)
