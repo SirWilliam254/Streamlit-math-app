@@ -21,9 +21,7 @@ st.write(
     """
       Introducing the latest innovation in the world of mathematics - a groundbreaking app that harnesses the power of artificial intelligence to simplify complex calculations and reduce workloads for technical professionals.
 
-Our math AI app is designed to streamline the work of engineers, scientists, and researchers who rely on complex mathematical equations and models to solve real-world problems. With our app, users can spend less time on tedious calculations and more time on critical thinking and problem-solving.
-
-Our app's advanced algorithms can perform a wide range of mathematical functions, including but not limited to solving differential equations, optimizing complex systems, and performing statistical analysis. Users can input their equations and data, and our app will instantly provide accurate solutions and visualizations.
+Our math AI app is designed to streamline the work of engineers, scientists, and researchers who rely on complex mathematical equations and models to solve real-world problems. With our app, users can spend less time on tedious calculations and more time on critical thinking and problem-solving. Having advanced algorithms it can perform a wide range of mathematical functions, including but not limited to solving differential equations, optimizing complex systems, and performing statistical analysis. Users can input their equations and data, and our app will instantly provide accurate solutions and visualizations.
 
 One of the most exciting features of our math AI app is its ability to learn and adapt to user preferences. As users input more data and equations, the app's algorithms become more accurate and efficient, allowing users to solve increasingly complex problems with ease.
 
