@@ -26,20 +26,20 @@ def main():
     decimals = st.text_input("Decimals")
     decimals_list = decimals.split(",")
     fractions_list = []
+    if st.button("Calculate Fractions"):
+        for decimal in decimals_list:
+            try:
+                decimal = float(decimal.strip())
+                if decimal >= 1 or decimal <= -1:
+                    a, b = to_fraction(decimal)
+                    fractions_list.append(f"{a} {b}/{abs(b)}")
+                else:
+                    fractions_list.append(f"{to_fraction(decimal)}")
+            except ValueError:
+                st.error(f"Error: Could not convert {decimal.strip()} to float.")
 
-    for decimal in decimals_list:
-        try:
-            decimal = float(decimal.strip())
-            if decimal >= 1 or decimal <= -1:
-                a, b = to_fraction(decimal)
-                fractions_list.append(f"{a} {b}/{abs(b)}")
-            else:
-                fractions_list.append(f"{to_fraction(decimal)}")
-        except ValueError:
-            st.error(f"Error: Could not convert {decimal.strip()} to float.")
-
-    st.write("Fractions:")
-    st.write(", ".join(fractions_list))
+        st.write("Fractions:")
+        st.write(", ".join(fractions_list))
 
 if __name__ == "__main__":
     main()
