@@ -54,9 +54,9 @@ def main():
     }
     
     # Get allowable parameters for the selected distribution
-    allowable_params = list(distributions[distribution].shapes.keys())
+    allowable_params = list(distributions[distribution].params.keys())
     param_ranges = {k: v for k, v in param_ranges[distribution].items() if k in allowable_params}
-    
+
     # Get values for the selected parameters
     params = {}
     for param in param_ranges.keys():
