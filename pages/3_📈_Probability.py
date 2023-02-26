@@ -66,19 +66,19 @@ def main():
     # Select a probability case
     prob_type = st.selectbox('Select a probability case:', ['P(X < x)', 'P(X > x)', 'P(x1 < X < x2)'])
     # Get the value(s) of x for the selected probability case
-if case == 'P(x1 < X < x2)':
-    x1 = st.number_input('Enter the value of x1:', value=0, step=0.01)
-    x2 = st.number_input('Enter the value of x2:', value=0, step=0.01)
-else:
-    x = st.number_input('Enter the value of x:', value=0, step=0.01)
+    if case == 'P(x1 < X < x2)':
+        x1 = st.number_input('Enter the value of x1:', value=0, step=0.01)
+        x2 = st.number_input('Enter the value of x2:', value=0, step=0.01)
+    else:
+        x = st.number_input('Enter the value of x:', value=0, step=0.01)
 
 # Calculate the probability
-if case == 'P(X < x)':
-    prob = distributions[distribution].cdf(x, **params)
-elif case == 'P(X > x)':
-    prob = 1 - distributions[distribution].cdf(x, **params)
-else:
-    prob = distributions[distribution].cdf(x2, **params) - distributions[distribution].cdf(x1, **params)
+    if case == 'P(X < x)':
+        prob = distributions[distribution].cdf(x, **params)
+    elif case == 'P(X > x)':
+        prob = 1 - distributions[distribution].cdf(x, **params)
+    else:
+        prob = distributions[distribution].cdf(x2, **params) - distributions[distribution].cdf(x1, **params)
 
 # Display the results
 st.write(f'The probability of {case} is {prob:.4f}')
