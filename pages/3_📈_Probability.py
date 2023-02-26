@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 from scipy.stats import *
-from pip import main
+
 
 # Define the list of available distributions
 distributions = ['Beta', 'Binomial']
