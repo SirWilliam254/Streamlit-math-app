@@ -25,8 +25,6 @@ Our math AI app is designed to streamline the work of engineers, scientists, and
 
 One of the most exciting features of our math AI app is its ability to learn and adapt to user preferences. As users input more data and equations, the app's algorithms become more accurate and efficient, allowing users to solve increasingly complex problems with ease.
 
-Another key benefit of our app is its ability to automate repetitive tasks. For instance, our app can automate data analysis and generate reports, allowing users to quickly identify trends and patterns in their data.
-
 Our app also provides users with an intuitive and user-friendly interface that makes it easy to input data and equations, visualize results, and collaborate with team members. With our app, users can work more efficiently and effectively, leading to better results and faster innovation.
    """
 )
