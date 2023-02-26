@@ -49,7 +49,3 @@ elif distribution == 'Binomial':
 
 # Display the calculated probability to the user
     st.write(f"Probability of {prob_case} case" + f" is {prob}")
-
-    
-if __name__ == "__main__":
-    main()
