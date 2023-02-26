@@ -81,7 +81,7 @@ def main():
         prob = distributions[distribution].cdf(x2, **params) - distributions[distribution].cdf(x1, **params)
 
 # Display the results
-st.write(f'The probability of {case} is {prob:.4f}')
+    st.write(f'The probability of {case} is {prob:.4f}')
 
 if __name__ == '__main__':
     main()
