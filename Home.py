@@ -42,4 +42,4 @@ with c1:
 with c2:
     st.info('**GitHub: [@SirWilliam254](https://github.com/Sirwilliam254)**', icon="💻")
 with c3:
-    st.info('**LinkedIn: [William Mburu](https://linkedin/in/william-mburu)**', icon="🌍")
+    st.info('**LinkedIn: [William Mburu](https://www.linkedin.com/in/william-mburu/)**', icon="🌍")
