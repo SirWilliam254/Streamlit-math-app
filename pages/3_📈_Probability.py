@@ -19,19 +19,23 @@ distributions = {
     'Weibull': stats.weibull_min
 }
 
-# Define a function to calculate the probability density/mass function
-def calc_prob_dist(distribution, params, x):
+# Define a function to calculate the probabilities
+def calc_probs(distribution, params, x1, x2=None):
     dist = distributions[distribution](*params)
-    if dist.shapes:
-        pdf = dist.pdf(x)
+    if x2 is None:
+        p1 = dist.cdf(x1)
+        p2 = dist.sf(x1)
+        p3 = None
     else:
-        pdf = dist.pmf(x)
-    return pdf
+        p1 = dist.cdf(x1)
+        p2 = dist.sf(x1)
+        p3 = dist.sf(x2) - dist.sf(x1)
+    return p1, p2, p3
 
 # Define the Streamlit app
 def main():
     st.title('Probability Calculator')
-    st.write('This app allows you to calculate the probability density/mass function of different distributions.')
+    st.write('This app allows you to calculate the probabilities for different distributions.')
     
     # Create dropdown menu to select a distribution
     distribution = st.selectbox('Select a distribution:', list(distributions.keys()))
@@ -42,27 +46,22 @@ def main():
         param_val = st.number_input(f'Enter value for {param}:', value=1)
         params.append(param_val)
     
-    # Get x values for the probability density/mass function
-    if distributions[distribution].name == 't':
-        x_min = -10
-        x_max = 10
+    # Get x1 and x2 values for the probabilities
+    x1 = st.number_input('Enter value for x:', value=0)
+    if st.checkbox('Calculate p>x>p2'):
+        x2 = st.number_input('Enter value for x2:', value=1)
     else:
-        x_min = st.number_input('Enter minimum x value:', value=-10)
-        x_max = st.number_input('Enter maximum x value:', value=10)
+        x2 = None
     
-    x = np.linspace(x_min, x_max, 1000)
+    # Calculate the probabilities
+    p1, p2, p3 = calc_probs(distribution, params, x1, x2)
     
-    # Calculate the probability density/mass function
-    pdf = calc_prob_dist(distribution, params, x)
+    # Display the probabilities
+    st.write(f'p < x: {p1:.4f}')
+    st.write(f'p > x: {p2:.4f}')
+    if p3 is not None:
+        st.write(f'p > x > p2: {p3:.4f}')
     
-    # Plot the probability density/mass function
-    st.line_chart(pd.DataFrame({'x': x, 'pdf': pdf}))
-    
-    # Allow the user to download a CSV of the probability density/mass function
-    csv = pd.DataFrame({'x': x, 'pdf': pdf})
-    csv_download = csv.to_csv(index=False)
-    st.download_button('Download CSV', data=csv_download, file_name=f'{distribution}_pdf.csv', mime='text/csv')
-    
-
+# Run the Streamlit app
 if __name__ == '__main__':
     main()
