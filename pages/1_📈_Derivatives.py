@@ -19,7 +19,10 @@ def calculate_derivative(function_str):
 # Define the Streamlit app
 def app():
     st.title("Derivative Calculator")
-
+    st.write(
+        """
+    `refining in progress...`
+    """)
     # Add a text input for the user to enter a function
     function_str = st.text_input("Enter a function:", value='x**2')
 
