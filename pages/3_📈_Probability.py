@@ -33,6 +33,10 @@ def calc_prob_dist(distribution, params, x, case):
 # Define the Streamlit app
 def main():
     st.title('Probability Calculator')
+    st.write(
+        """
+    `refining in progress...`
+    """)
     st.write('This app allows you to calculate the probability density/mass function of different distributions.')
     
     # Create dropdown menu to select a distribution
