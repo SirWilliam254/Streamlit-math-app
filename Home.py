@@ -10,7 +10,7 @@ st.sidebar.success("Successfully Loaded")
 
 st.write(
     """
-    Mathematics is a very interesting faculty which has a tremendous effect on the productivity and value creation in 
+    `Mathematics` is a very interesting faculty which has a tremendous effect on the productivity and value creation in 
 this mandane world that we live in.
     In this app we have calculators for automating some of the mathematical challenges, You can explore the calculators
     on the sidebar.
