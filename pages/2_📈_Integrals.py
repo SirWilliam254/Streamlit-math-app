@@ -19,7 +19,10 @@ def calculate_integral(function_str, lower_bound, upper_bound):
 # Define the Streamlit app
 def app():
     st.title("Integral Calculator")
-
+    st.write(
+        """
+    `refining in progress...`
+    """)
     # Add a text input for the user to enter a function
     function_str = st.text_input("Enter a function:", value='x**2')
 
